@@ -183,11 +183,11 @@ function onPageLoad() {
        {
           "id":"168",
           "calendar_name":"\u00e0lgebra lineal (m-a)",
-          "room":"001",
+          "room":"A4002",
           "begins":"1601535600",
           "ends":"1601539200",
           "subject_id":"35",
-          "friendly_name":"\u00c0lgebra Lineal (A)",
+          "friendly_name":"AP1 10 T",
           "is_current":"1",
           "user_subject_id":null,
           "user_selected":false
@@ -195,11 +195,11 @@ function onPageLoad() {
        {
           "id":"169",
           "calendar_name":"\u00e0lgebra lineal (m-b)",
-          "room":"002",
+          "room":"A5202",
           "begins":"1601535600",
           "ends":"1601539200",
           "subject_id":"69",
-          "friendly_name":"\u00c0lgebra Lineal (B)",
+          "friendly_name":"LMD 10 T",
           "is_current":"1",
           "user_subject_id":null,
           "user_selected":false
@@ -207,11 +207,11 @@ function onPageLoad() {
        {
           "id":"173",
           "calendar_name":"c\u00e0lcul integral (m-a)",
-          "room":"S04",
+          "room":"A6102",
           "begins":"1601535600",
           "ends":"1601539200",
           "subject_id":"33",
-          "friendly_name":"C\u00e0lcul Integral (A)",
+          "friendly_name":"TEOI 10 T",
           "is_current":"1",
           "user_subject_id":null,
           "user_selected":false
@@ -219,11 +219,11 @@ function onPageLoad() {
        {
           "id":"172",
           "calendar_name":"programaci\u00f3 matem\u00e0tica (m-b)",
-          "room":"S03",
+          "room":"A4105",
           "begins":"1601535600",
           "ends":"1601539200",
           "subject_id":"68",
-          "friendly_name":"Programaci\u00f3 Matem\u00e0tica (B)",
+          "friendly_name":"ARAP 11 L",
           "is_current":"1",
           "user_subject_id":null,
           "user_selected":false
@@ -231,11 +231,11 @@ function onPageLoad() {
        {
           "id":"170",
           "calendar_name":"teoria de galois",
-          "room":"004",
+          "room":"A5103",
           "begins":"1601535600",
           "ends":"1601539200",
           "subject_id":"39",
-          "friendly_name":"Teoria de Galois",
+          "friendly_name":"TAED2 11 L",
           "is_current":"1",
           "user_subject_id":null,
           "user_selected":false
