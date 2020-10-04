@@ -1,7 +1,7 @@
 {
-  "short_name": "Seients DAFME",
-  "name": "Seients DAFME",
-  "description": "App per la traçabilitat del COVID a la FME",
+  "short_name": "Seients GCED",
+  "name": "Seients GCED",
+  "description": "App per la traçabilitat del COVID al GCED",
   "icons": [
     {
       "src": "images/icon-128.png",
