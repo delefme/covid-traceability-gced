@@ -1,5 +1,0 @@
-[db]
-host = localhost
-database = covid_tracability
-user = user
-password = password
