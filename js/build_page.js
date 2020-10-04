@@ -1,26 +1,30 @@
 const idsFormulari = {
-    room: "1063142948",
-    day: "2115504093",
-    begins: "1749141911",
-    ends: "1827359679",
+    room: "430644487",
+    day: "969387026_day",
+    month: "969387026_month",
+    year: "969387026_year",
+    begins: "1247556644",
+    ends: "1129822799",
     rows: {
-        A: "208184485",
-        B: "1077148310",
-        C: "642851281",
-        D: "1686039024",
-        E: "697835787",
-        F: "1511799646",
-        G: "809853432",
-        H: "182597499",
-        I: "1890539481",
-        J: "529159478",
-        K: "1615241874",
-        L: "1334263875"
+        1: "54765492",
+        2: "1930763724",
+        3: "2120264882",
+        4: "461426864",
+        5: "384404927",
+        6: "425665257",
+        7: "1250957997",
+        8: "808906937",
+        9: "1138441160",
+        10: "48654110",
+        11: "980501094",
+        12: "1347864676",
+        13: "7665354",
+        14:"339318881",
     },
-    notes: "1600275159"
+    notes: "2023304730"
 };
 
-const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfT9o287VqLyhwR8LPdloAQWhuqCgA3NfdhgP5vb9_sVQHL-g/viewform";
+const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdEgitRtL-e5XbKktWrQMZUC5FlmcGVYrTArMh_Xw-SDLW8Iw/viewform";
 
 var final_JSON = {
     "class": null,
@@ -254,8 +258,30 @@ function onPageLoad() {
 
 function sendForm() {
     
-    var begins = new Date(parseInt(final_JSON.class.begins)*1000);
-    var ends = new Date(parseInt(final_JSON.class.ends)*1000);
+    var room = "A4002";
+    var day = "24";
+    var month = "03";
+    var year = "2020";
+    var begins = "10:00";
+    var ends = "12:00";
+    var number = "6";
+    var letter = "B";
+
+    var params = new URLSearchParams();
+    params.append("entry." + idsFormulari.room, room);
+    params.append("entry." + idsFormulari.day, day);
+    params.append("entry." + idsFormulari.month, month);
+    params.append("entry." + idsFormulari.year, year);
+    params.append("entry." + idsFormulari.begins, begins);
+    params.append("entry." + idsFormulari.ends, ends);
+    params.append("entry." + idsFormulari.rows[number], letter);
+
+    var formulari_link = formBaseUrl + '?' + params.toString() + '#i1';
+    window.location.href = formulari_link;
+
+    /*
+    var begins = new Date(parseInt(final_JSON.class.begins)1000);
+    var ends = new Date(parseInt(final_JSON.class.ends)1000);
 
     var params = new URLSearchParams();
     params.append("entry." + idsFormulari.room, final_JSON.class.room); // class, number, letter
@@ -266,6 +292,7 @@ function sendForm() {
 
     var formulari_link = formBaseUrl + '?' + params.toString() + '#i1';
     window.location.href = formulari_link;
+    */
 
 }
 
