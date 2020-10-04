@@ -1,5 +1,3 @@
-
-
 const idsFormulari = {
     room: "1063142948",
     day: "2115504093",
@@ -168,85 +166,107 @@ function formatDate(d) {
 }
 
 function onPageLoad() {
-
-    // Check if user is signed in
-    if (localStorage.getItem('devMode') == 'true') {
-        var banner = document.getElementById('dev-mode');
-        banner.addEventListener('click', _ => {
-            localStorage.devMode = 'false';
-            location.reload();
-        });
-        banner.classList.remove('hidden');
-        api_url = localStorage.getItem('apiUrl') || 'https://covid-tracability-backend-dev.sandbox.avm99963.com/api/v1/'
-    } else {
-        api_url = "https://covid-tracability-backend-prod.sandbox.avm99963.com/api/v1/";
-    }
-    fetch(api_url + "isSignedIn", {
-        "mode": "cors",
-        "credentials": "include"
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (!data.payload.signedIn) {
-                console.log("Not signed in!");
-                fetch(api_url + "getAuthUrl", {
-                    "mode": "cors",
-                    "credentials": "include"
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        // TODO: redirect here
-                        // location.href = data.payload.url;
-                        console.warn('Log in here: ', data.payload.url);
-                    });
-            }
-        });
-
+    /*
     fetch(api_url + "getCurrentClasses", {
         "mode": "cors",
         "credentials": "include"
     })
         .then(response => response.json())
         .then(data => {
-            if (data.payload.classes.length == 0) {
-                document.getElementById('no-subjects').classList.remove('hidden');
-            } else {
-                repeated_subjects = findRepeatedSubjects(data.payload.classes);
-                buildSubjectContainer(data.payload.classes, repeated_subjects);
-                document.getElementById('fme-maps-container').classList.remove('hidden');
-            }
+    */
+    
+    var classesProva = [
+       {
+          "id":"168",
+          "calendar_name":"\u00e0lgebra lineal (m-a)",
+          "room":"001",
+          "begins":"1601535600",
+          "ends":"1601539200",
+          "subject_id":"35",
+          "friendly_name":"\u00c0lgebra Lineal (A)",
+          "is_current":"1",
+          "user_subject_id":null,
+          "user_selected":false
+       },
+       {
+          "id":"169",
+          "calendar_name":"\u00e0lgebra lineal (m-b)",
+          "room":"002",
+          "begins":"1601535600",
+          "ends":"1601539200",
+          "subject_id":"69",
+          "friendly_name":"\u00c0lgebra Lineal (B)",
+          "is_current":"1",
+          "user_subject_id":null,
+          "user_selected":false
+       },
+       {
+          "id":"173",
+          "calendar_name":"c\u00e0lcul integral (m-a)",
+          "room":"S04",
+          "begins":"1601535600",
+          "ends":"1601539200",
+          "subject_id":"33",
+          "friendly_name":"C\u00e0lcul Integral (A)",
+          "is_current":"1",
+          "user_subject_id":null,
+          "user_selected":false
+       },
+       {
+          "id":"172",
+          "calendar_name":"programaci\u00f3 matem\u00e0tica (m-b)",
+          "room":"S03",
+          "begins":"1601535600",
+          "ends":"1601539200",
+          "subject_id":"68",
+          "friendly_name":"Programaci\u00f3 Matem\u00e0tica (B)",
+          "is_current":"1",
+          "user_subject_id":null,
+          "user_selected":false
+       },
+       {
+          "id":"170",
+          "calendar_name":"teoria de galois",
+          "room":"004",
+          "begins":"1601535600",
+          "ends":"1601539200",
+          "subject_id":"39",
+          "friendly_name":"Teoria de Galois",
+          "is_current":"1",
+          "user_subject_id":null,
+          "user_selected":false
+       }
+    ];
+    
+    if (classesProva.length == 0) {
+        document.getElementById('no-subjects').classList.remove('hidden');
+    } else {
+        repeated_subjects = findRepeatedSubjects(classesProva);
+        buildSubjectContainer(classesProva, repeated_subjects);
+        document.getElementById('fme-maps-container').classList.remove('hidden');
+    }
+    
+    /*
 
         });
+    */
 }
 
 function sendForm() {
-    // Add subject to user
-    fetch(api_url + "addUserSubject", {
-        "method": "POST",
-        "body": JSON.stringify({
-            subject: final_JSON.class.subject_id
-        }),
-        "mode": "cors",
-        "credentials": "include"
-    })
-        .then(res => res.json())
-        .then(json => {
-            console.log("Subject added to user: ", json);
+    
+    var begins = new Date(parseInt(final_JSON.class.begins)*1000);
+    var ends = new Date(parseInt(final_JSON.class.ends)*1000);
 
-            var begins = new Date(parseInt(final_JSON.class.begins)*1000);
-            var ends = new Date(parseInt(final_JSON.class.ends)*1000);
+    var params = new URLSearchParams();
+    params.append("entry." + idsFormulari.room, final_JSON.class.room); // class, number, letter
+    params.append("entry." + idsFormulari.day, begins.getFullYear().toString() + '-' + (begins.getMonth() + 1).toString().padStart(2, "0") + '-' + begins.getDate().toString().padStart(2, "0"));
+    params.append("entry." + idsFormulari.begins, formatDate(begins));
+    params.append("entry." + idsFormulari.ends, formatDate(ends));
+    params.append("entry." + idsFormulari.rows[final_JSON.letter], 'Columna ' + final_JSON.number);
 
-            var params = new URLSearchParams();
-            params.append("entry." + idsFormulari.room, final_JSON.class.room); // class, number, letter
-            params.append("entry." + idsFormulari.day, begins.getFullYear().toString() + '-' + (begins.getMonth() + 1).toString().padStart(2, "0") + '-' + begins.getDate().toString().padStart(2, "0"));
-            params.append("entry." + idsFormulari.begins, formatDate(begins));
-            params.append("entry." + idsFormulari.ends, formatDate(ends));
-            params.append("entry." + idsFormulari.rows[final_JSON.letter], 'Columna ' + final_JSON.number);
-            // params.append("entry." + idsFormulari.notes, '[Autogenerat per delefme/covid-tracability -- Assignatura seleccionada: ' + (final_JSON.class.friendly_name || final_JSON.class.calendar_name) + ']');
+    var formulari_link = formBaseUrl + '?' + params.toString() + '#i1';
+    window.location.href = formulari_link;
 
-            var formulari_link = formBaseUrl + '?' + params.toString() + '#i1';
-            window.location.href = formulari_link;
-        });
 }
 
 
