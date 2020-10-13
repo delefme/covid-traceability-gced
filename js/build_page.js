@@ -147,13 +147,14 @@ function buildSubjectContainer(classes, repeated) {
 
         document.getElementById("subject-container").appendChild(classeDiv);
     }
-
-    var elements = document.getElementsByClassName("button");
+    
+    var elements;
+    elements = document.getElementsByClassName("button");
     Array.from(elements).forEach(function(element) {
         element.addEventListener('click', clickButton);
         element.parent = element.parentNode.id;
     });
-    var elements = document.getElementsByClassName("complex-button");
+    elements = document.getElementsByClassName("complex-button");
     Array.from(elements).forEach(function(element) {
         element.addEventListener('click', clickButton);
         element.parent = element.parentNode.id;
@@ -169,16 +170,46 @@ function formatDate(d) {
     return str;
 }
 
-function onPageLoad() {
-    /*
-    fetch(api_url + "getCurrentClasses", {
-        "mode": "cors",
-        "credentials": "include"
-    })
-        .then(response => response.json())
-        .then(data => {
-    */
+function randInt(minimum, maximum) {
+    return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+}
+
+function todayAt(hourSTR) {
+    var now = new Date; // now
+    var hour = hourSTR.split(":");
     
+    now.setHours(hour[0]);   // set hours to 0
+    now.setMinutes(hour[1]); // set minutes to 0
+    now.setSeconds(0); // set seconds to 0
+    
+    return Math.floor(now / 1000); // UNIX TIMESTAMP
+}
+
+function processClasses(apiData) {
+    let classesJSON = [];
+    var classe;
+    
+    for (let i = 1; i < apiData.length; ++i) {
+        classe = apiData[i];
+        classesJSON.push({
+            id: randInt(1, 999999), // TODO - de moment així
+            calendar_name: classe[0],
+            room: classe[1],
+            begins: todayAt(classe[5]),
+            ends: todayAt(classe[6]),
+            subject_id: randInt(1, 999999), // TODO - de moment així
+            friendly_name: classe[0],
+            is_current: 1,          // Passem
+            user_subject_id: null,  // Passem
+            user_selected: false,   // Passem
+        });
+    }
+    
+    return classesJSON;
+}
+
+function onPageLoad(apiData) {
+    /*
     var classesProva = [
        {
           "id":"168",
@@ -241,23 +272,22 @@ function onPageLoad() {
           "user_selected":false
        }
     ];
+    */
     
-    if (classesProva.length == 0) {
+    let processedClasses = processClasses(apiData);
+    
+    if (processedClasses.length == 0) {
         document.getElementById('no-subjects').classList.remove('hidden');
     } else {
-        repeated_subjects = findRepeatedSubjects(classesProva);
-        buildSubjectContainer(classesProva, repeated_subjects);
+        repeated_subjects = findRepeatedSubjects(processedClasses);
+        buildSubjectContainer(processedClasses, repeated_subjects);
         document.getElementById('fme-maps-container').classList.remove('hidden');
     }
-    
-    /*
-
-        });
-    */
 }
 
 function sendForm() {
     
+    // TODO - Canviar a les dades reals
     var room = "A4002";
     var day = "24";
     var month = "03";
@@ -298,7 +328,7 @@ function sendForm() {
 
 
 function addEventListeners() {
-    window.addEventListener('load', onPageLoad);
+    // window.addEventListener('load', onPageLoad);
 
     var elements = document.getElementsByClassName("button");
     Array.from(elements).forEach(function(element) {
